@@ -5,44 +5,23 @@ from education.models import Lesson, Course
 
 
 class User(AbstractUser):
-    username = None
-
-    email = models.EmailField(
-        unique=True,
-        verbose_name="Почта",
-        help_text="Укажите Ваш адрес электронной почты в формате example@sample.com",
-    )
-
-    phone = models.CharField(
-        max_length=35,
-        blank=True,
-        null=True,
-        verbose_name="Номер телефона",
-        help_text="Введите Ваш номер телефона, номер должен состоять только из цифр и специальных знаков форматов стран.",
-    )
-
-    city = models.CharField(
-        max_length=100,
-        blank=True,
-        null=True,
-        verbose_name="Город",
-        help_text="Введите Ваш город.",
-    )
-
-    avatar = models.ImageField(
-        upload_to="users/avatars",
-        blank=True,
-        null=True,
-        verbose_name="Аватар",
-        help_text="Загрузите изображение.",
-    )
+    username = models.CharField(max_length=50, verbose_name="username", blank=True, null=True)
+    email = models.EmailField(unique=True, verbose_name="Email", help_text="Введите Ваш e-mail")
+    avatar = models.ImageField(upload_to="media/users/avatars/", verbose_name='Аватар', blank=True, null=True, help_text="Загрузите Ваше фото")
+    phone_number = models.CharField(max_length=35, verbose_name="Телефон", blank=True, null=True,
+                             help_text="Введите номер телефона")
+    country = models.CharField(max_length=100, verbose_name="Страна", blank=True, null=True,
+                               help_text="Введите Вашу страну")
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["username",]
 
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
+
+    def __str__(self):
+        return self.email
 
 
 class Payments(models.Model):
@@ -88,4 +67,3 @@ class Payments(models.Model):
         verbose_name = "Платёж"
         verbose_name_plural = "Платежи"
         ordering = ["payment_date"]
-
