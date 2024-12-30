@@ -1,27 +1,13 @@
-from django.urls import path
 from rest_framework.routers import SimpleRouter
 
 from education.apps import EducationConfig
 
-from .views import (CourseViewSet, LessonCreateApiView, LessonDestroyApiView,
-                    LessonListApiView, LessonRetrieveApiView,
-                    LessonUpdateApiView)
+from .views import (CourseViewSet, LessonViewSet)
 
 appname = EducationConfig.name
 
 router = SimpleRouter()
 router.register("", CourseViewSet)
+router.register("", LessonViewSet)
 
-urlpatterns = [
-    path("lessons/", LessonListApiView.as_view(), name="lessons_list"),
-    path("lessons/<int:pk>/", LessonRetrieveApiView.as_view(), name="lessons_retrieve"),
-    path(
-        "lessons/<int:pk>/update/", LessonUpdateApiView.as_view(), name="lessons_update"
-    ),
-    path("lessons/create/", LessonCreateApiView.as_view(), name="lessons_create"),
-    path(
-        "lessons/<int:pk>/delete/",
-        LessonDestroyApiView.as_view(),
-        name="lessons_destroy",
-    ),
-] + router.urls
+urlpatterns = [] + router.urls

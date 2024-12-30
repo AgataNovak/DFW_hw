@@ -10,6 +10,8 @@ class CourseSerializer(ModelSerializer):
 
 
 class LessonSerializer(ModelSerializer):
+    course = CourseSerializer(read_only=True)
+
     class Meta:
         model = Lesson
         fields = "__all__"
@@ -25,3 +27,11 @@ class CourseDetailSerializer(ModelSerializer):
     class Meta:
         model = Course
         fields = ["title", "description", "lessons_quantity", "lessons"]
+
+
+class LessonDetailSerializer(ModelSerializer):
+    course = CourseSerializer(read_only=True)
+
+    class Meta:
+        model = Course
+        fields = ["title", "description",]
