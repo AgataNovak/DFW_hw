@@ -10,9 +10,10 @@ class LinkValidator:
 
     def __call__(self, value):
         field = dict(value).get(self.field)
-        reg_link = re.compile(r'https:\S+')
-        reg_youtube = re.compile('youtube.com')
-        links = re.findall(reg_link, field)
-        for link in links:
-            if not re.match(reg_youtube, link):
-                raise ValidationError('Ссылки не могут вести на сторонние ресурсы кроме Youtube')
+        if field:
+            reg_link = re.compile(r'https:\S+')
+            reg_youtube = re.compile('youtube.com')
+            links = re.findall(reg_link, field)
+            for link in links:
+                if not re.match(reg_youtube, link):
+                    raise ValidationError('Ссылки не могут вести на сторонние ресурсы кроме Youtube')
