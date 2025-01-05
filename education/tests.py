@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 from users.models import User
-from education.models import Course, Lesson
+from education.models import Course, Lesson, Subscription
 
 
 class LessonTestCase(APITestCase):
@@ -93,4 +93,39 @@ class LessonTestCase(APITestCase):
         self.assertEqual(
             data.get("title"),
             "test title lesson 1"
+        )
+
+
+class SubscriptionTestCase(APITestCase):
+
+    def setUp(self):
+        self.user = User.objects.create(email="Gorskaia_Agatha@example.com")
+
+        self.client.force_authenticate(user=self.user)
+
+        self.course = Course.objects.create(
+            title="Test Course Title for sub",
+            description="Test Course Description for sub",
+            owner=self.user
+        )
+
+    def test_subscription_create(self):
+        url = reverse(
+            "education:subscription"
+        )
+        data = {
+            "course": self.course.pk,
+            "user": self.user
+        }
+        response = self.client.post(url, data=data)
+        data = response.json()
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK
+        )
+
+        self.assertEqual(
+            data.get("course"),
+            self.course
         )
