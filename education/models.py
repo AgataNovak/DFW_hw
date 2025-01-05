@@ -27,8 +27,8 @@ class Course(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name='Автор',
-        help_text='Укажите автора курса',
+        verbose_name="Автор",
+        help_text="Укажите автора курса",
     )
 
     REQUIRED_FIELDS = []

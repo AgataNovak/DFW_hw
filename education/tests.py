@@ -114,18 +114,17 @@ class SubscriptionTestCase(APITestCase):
             "education:subscription"
         )
         data = {
-            "course": self.course.pk,
+            "course_id": self.course.pk,
             "user": self.user
         }
         response = self.client.post(url, data=data)
         data = response.json()
-
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK
         )
 
         self.assertEqual(
-            data.get("course"),
-            self.course
+            data,
+            {'message': "Подписка добавлена"}
         )

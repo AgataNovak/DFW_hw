@@ -10,11 +10,10 @@ from .views import (CourseViewSet,
                     LessonRetrieveAPIView,
                     LessonDestroyAPIView, SubscriptionView)
 
-appname = EducationConfig.name
+app_name = EducationConfig.name
 
 router = SimpleRouter()
 router.register("", CourseViewSet)
-
 
 urlpatterns = [
     path("lessons/", LessonListAPIView.as_view(), name="lessons_list"),

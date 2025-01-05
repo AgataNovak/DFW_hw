@@ -17,15 +17,24 @@ class CourseViewSet(ModelViewSet):
     serializer_class = CourseSerializer
     pagination_class = CoursePaginator
 
+    def perform_create(self, serializer):
+        course = serializer.save()
+        course.owner = self.request.user
+        course.save()
+
     def get_serializer_class(self):
         if self.action == "retrieve":
             return CourseDetailSerializer
+        return CourseSerializer
 
     def get_permissions(self):
-        if self.action in ["create", "destroy"]:
+        if self.action == "create":
             self.permission_classes = (~IsModer,)
         elif self.action in ["update", "retrieve"]:
-            self.permission_classes = (IsModer,)
+            self.permission_classes = (IsModer | IsOwner,)
+        elif self.action == "destroy":
+            self.permission_classes = (~IsModer | IsOwner,)
+
         return super().get_permissions()
 
 
