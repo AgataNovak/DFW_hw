@@ -1,4 +1,5 @@
 from django.db import models
+from config.settings import AUTH_USER_MODEL as User
 
 
 class Course(models.Model):
@@ -20,6 +21,14 @@ class Course(models.Model):
         null=True,
         verbose_name="Описание курса",
         help_text="Введите описание курса.",
+    )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Автор",
+        help_text="Укажите автора курса",
     )
 
     REQUIRED_FIELDS = []
@@ -62,9 +71,26 @@ class Lesson(models.Model):
         help_text="Выберете курс",
         null=True,
     )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Автор',
+        help_text='Укажите автора урока',
+    )
 
     REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"

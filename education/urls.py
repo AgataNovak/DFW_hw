@@ -3,25 +3,31 @@ from rest_framework.routers import SimpleRouter
 
 from education.apps import EducationConfig
 
-from .views import (CourseViewSet, LessonCreateApiView, LessonDestroyApiView,
-                    LessonListApiView, LessonRetrieveApiView,
-                    LessonUpdateApiView)
+from .views import (CourseViewSet,
+                    LessonCreateAPIView,
+                    LessonListAPIView,
+                    LessonUpdateAPIView,
+                    LessonRetrieveAPIView,
+                    LessonDestroyAPIView, SubscriptionView)
 
-appname = EducationConfig.name
+app_name = EducationConfig.name
 
 router = SimpleRouter()
 router.register("", CourseViewSet)
 
 urlpatterns = [
-    path("lessons/", LessonListApiView.as_view(), name="lessons_list"),
-    path("lessons/<int:pk>/", LessonRetrieveApiView.as_view(), name="lessons_retrieve"),
+    path("lessons/", LessonListAPIView.as_view(), name="lessons_list"),
+    path("lessons/<int:pk>/", LessonRetrieveAPIView.as_view(), name="lessons_retrieve"),
+    path("lessons/create/", LessonCreateAPIView.as_view(), name="lessons_create"),
     path(
-        "lessons/<int:pk>/update/", LessonUpdateApiView.as_view(), name="lessons_update"
+        "lessons/<int:pk>/update/", LessonUpdateAPIView.as_view(), name="lessons_update"
     ),
-    path("lessons/create/", LessonCreateApiView.as_view(), name="lessons_create"),
     path(
         "lessons/<int:pk>/delete/",
-        LessonDestroyApiView.as_view(),
-        name="lessons_destroy",
+        LessonDestroyAPIView.as_view(),
+        name="lessons_delete",
     ),
-] + router.urls
+    path("subscription/", SubscriptionView.as_view(), name="subscription"),
+]
+
+urlpatterns += router.urls
