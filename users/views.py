@@ -10,14 +10,6 @@ from users.serializers import UserSerializer, PaymentSerializer, UserDetailSeria
 from users.services import create_stripe_price, create_stripe_product, create_stripe_session
 
 
-# class PaymentsViewSet(viewsets.ModelViewSet):
-#     queryset = Payments.objects.all()
-#     serializer_class = PaymentsSerializer
-#     filter_backends = [DjangoFilterBackend, OrderingFilter]
-#     filter_set_fields = ("payment_method", "paid_course", "paid_lesson")
-#     ordering_fields = ("payment_date",)
-
-
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
     permission_classes = (AllowAny,)

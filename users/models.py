@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from education.models import Lesson, Course
+from education.models import Course
 
 
 class User(AbstractUser):
@@ -51,13 +51,6 @@ class Payment(models.Model):
         verbose_name="Курс оплачен",
         help_text="Введите статус оплаты"
     )
-    # lesson_paid = models.ForeignKey(
-    #     Lesson,
-    #     on_delete=models.CASCADE,
-    #     null=True,
-    #     blank=True,
-    #     verbose_name="Урок оплачен",
-    # )
     payment_amount = models.PositiveIntegerField(
         verbose_name="Cумма к оплате",
         help_text="Введите сумму к оплате",
