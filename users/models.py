@@ -24,40 +24,49 @@ class User(AbstractUser):
         return self.email
 
 
-class Payments(models.Model):
+class Payment(models.Model):
     PAYMENT_CHOICES = [
-        ("наличные", "наличные"),
-        ("перевод на счет", "перевод на счет"),
+        ("наличные", "Наличные"),
+        ("перевод на счет", "Перевод на счет"),
+        ("онлайн оплата", "Онлайн оплата")
     ]
 
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
-
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
         verbose_name="Пользователь",
     )
-    payment_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата оплаты")
+    payment_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата оплаты",
+        help_text="Введите дату оплаты"
+    )
     course_paid = models.ForeignKey(
         Course,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
         verbose_name="Курс оплачен",
+        help_text="Введите статус оплаты"
     )
-    lesson_paid = models.ForeignKey(
-        Lesson,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        verbose_name="Урок оплачен",
-    )
-    payment_amount = models.DecimalField(
-        max_digits=9, decimal_places=2, verbose_name="Сумма оплаты"
+    # lesson_paid = models.ForeignKey(
+    #     Lesson,
+    #     on_delete=models.CASCADE,
+    #     null=True,
+    #     blank=True,
+    #     verbose_name="Урок оплачен",
+    # )
+    payment_amount = models.PositiveIntegerField(
+        verbose_name="Cумма к оплате",
+        help_text="Введите сумму к оплате",
     )
     payment_method = models.CharField(
-        max_length=50, choices=PAYMENT_CHOICES, verbose_name="Способ оплаты"
+        max_length=50,
+        choices=PAYMENT_CHOICES,
+        verbose_name="Способ оплаты",
+        help_text="Введите способ оплаты"
     )
 
     def __str__(self):
