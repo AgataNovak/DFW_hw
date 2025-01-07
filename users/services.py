@@ -12,11 +12,12 @@ def create_stripe_product(product):
 
 def create_stripe_price(amount):
 
-    stripe.Price.create(
+    price = stripe.Price.create(
         currency="usd",
         unit_amount=amount * 100,
         product_data={"name": "Payment"}
     )
+    return price
 
 
 def create_stripe_session(price):

@@ -21,15 +21,3 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "email", "phone_number", "avatar", "city", "payment_history"]
-
-
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-
-        # Добавление пользовательских полей в токен
-        token['username'] = user.username
-        token['email'] = user.email
-
-        return token

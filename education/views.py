@@ -39,6 +39,17 @@ class CourseViewSet(ModelViewSet):
 
         return super().get_permissions()
 
+    def perform_update(self, serializer):
+        course = serializer.save()
+        if Subscription.objects.filter(course=course.id).exists():
+            subscribers = Subscription.objects.filter(course=course.id).values('user')
+            for subscriber in subscribers:
+                print(subscriber['user'])
+                subscriber = User.objects.get(id=subscriber['user'])
+                print(subscriber.email)
+                email_update_notification_to_subscriber(email=subscriber.email, course=course.title)
+        course.save()
+
 
 class LessonCreateAPIView(CreateAPIView):
     queryset = Lesson.objects.all()
