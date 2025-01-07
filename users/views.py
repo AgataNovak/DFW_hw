@@ -1,26 +1,9 @@
 from rest_framework.permissions import AllowAny
-from rest_framework_simplejwt.views import TokenObtainPairView
-from users.serializers import MyTokenObtainPairSerializer
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
-from rest_framework.filters import OrderingFilter
 from users.models import User, Payment
 from users.serializers import UserSerializer, PaymentSerializer, UserDetailSerializer
-from users.services import create_stripe_price, create_stripe_product, create_stripe_session
-
-
-# class PaymentsViewSet(viewsets.ModelViewSet):
-#     queryset = Payments.objects.all()
-#     serializer_class = PaymentsSerializer
-#     filter_backends = [DjangoFilterBackend, OrderingFilter]
-#     filter_set_fields = ("payment_method", "paid_course", "paid_lesson")
-#     ordering_fields = ("payment_date",)
-
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
-    permission_classes = (AllowAny,)
+from users.services import create_stripe_price, create_stripe_session
 
 
 class UserCreateApiView(CreateAPIView):

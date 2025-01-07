@@ -70,6 +70,7 @@ class Lesson(models.Model):
         verbose_name="Курс",
         help_text="Выберете курс",
         null=True,
+        blank=True,
     )
     owner = models.ForeignKey(
         User,
