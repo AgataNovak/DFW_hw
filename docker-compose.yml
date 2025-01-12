@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+  redis:
+    image: redis:latest
+    restart: on-failure
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: "DATABASE_NAME"
+      POSTGRES_USER: "DATABASE_USER"
+      POSTGRES_PASSWORD: "DATABASE_PASSWORD"
+      env_file: .env
+      expose: "5432"
+      volumes: pg_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+
+  celery:
+    build: .
+    tty: true
+    command: celery -A config worker -l INFO
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - db
+      - app
+
+  celery-beat:
+    build: .
+    tty: true
+    command: celery -A config beat -l INFO
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - db
+      - app
