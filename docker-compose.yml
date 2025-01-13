@@ -5,24 +5,36 @@ services:
   redis:
     image: redis:latest
     restart: on-failure
+    expose:
+      - "6379"
+
 
   db:
     image: postgres
-    environment:
-      POSTGRES_DB: "DATABASE_NAME"
-      POSTGRES_USER: "DATABASE_USER"
-      POSTGRES_PASSWORD: "DATABASE_PASSWORD"
-      env_file: .env
-      expose: "5432"
-      volumes: pg_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    expose:
+      - "5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "-c", "pg_isready -U $POSTGRES_USER"]
+      interval: 10s
+      retries: 5
 
   app:
     build: .
-    command: python3 manage.py runserver 0.0.0.0:8000
+    tty: true
     ports:
       - '8000:8000'
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    env_file:
+      - .env
 
   celery:
     build: .
@@ -35,6 +47,8 @@ services:
       - redis
       - db
       - app
+    env_file:
+      - .env
 
   celery-beat:
     build: .
@@ -47,3 +61,8 @@ services:
       - redis
       - db
       - app
+    env_file:
+      - .env
+
+volumes:
+  pg_data:
