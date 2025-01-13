@@ -1,7 +1,12 @@
 from rest_framework import views, status
-from rest_framework.generics import (CreateAPIView, DestroyAPIView,
-                                     ListAPIView, RetrieveAPIView,
-                                     UpdateAPIView, get_object_or_404)
+from rest_framework.generics import (
+    CreateAPIView,
+    DestroyAPIView,
+    ListAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+    get_object_or_404,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -42,12 +47,14 @@ class CourseViewSet(ModelViewSet):
     def perform_update(self, serializer):
         course = serializer.save()
         if Subscription.objects.filter(course=course.id).exists():
-            subscribers = Subscription.objects.filter(course=course.id).values('user')
+            subscribers = Subscription.objects.filter(course=course.id).values("user")
             for subscriber in subscribers:
-                print(subscriber['user'])
-                subscriber = User.objects.get(id=subscriber['user'])
+                print(subscriber["user"])
+                subscriber = User.objects.get(id=subscriber["user"])
                 print(subscriber.email)
-                email_update_notification_to_subscriber(email=subscriber.email, course=course.title)
+                email_update_notification_to_subscriber(
+                    email=subscriber.email, course=course.title
+                )
         course.save()
 
 
@@ -61,12 +68,16 @@ class LessonCreateAPIView(CreateAPIView):
         lesson.owner = self.request.user
         lesson.save()
         if Subscription.objects.filter(course=lesson.course.id).exists():
-            subscribers = Subscription.objects.filter(course=lesson.course.id).values('user')
+            subscribers = Subscription.objects.filter(course=lesson.course.id).values(
+                "user"
+            )
             for subscriber in subscribers:
-                print(subscriber['user'])
-                subscriber = User.objects.get(id=subscriber['user'])
+                print(subscriber["user"])
+                subscriber = User.objects.get(id=subscriber["user"])
                 print(subscriber.email)
-                email_update_notification_to_subscriber(email=subscriber.email, course=lesson.course.title)
+                email_update_notification_to_subscriber(
+                    email=subscriber.email, course=lesson.course.title
+                )
 
 
 class LessonListAPIView(ListAPIView):
@@ -112,4 +123,3 @@ class SubscriptionView(views.APIView):
             message = "Подписка добавлена"
 
         return Response({"message": message}, status=status.HTTP_200_OK)
-

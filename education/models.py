@@ -77,8 +77,8 @@ class Lesson(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name='Автор',
-        help_text='Укажите автора урока',
+        verbose_name="Автор",
+        help_text="Укажите автора урока",
     )
 
     REQUIRED_FIELDS = []
@@ -95,4 +95,3 @@ class Subscription(models.Model):
     class Meta:
         verbose_name = "Подписка"
         verbose_name_plural = "Подписки"
-

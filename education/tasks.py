@@ -7,7 +7,7 @@ from users.models import User
 
 
 def email_update_notification_to_subscriber(email, course):
-    send_mail('Обновление курса!', f'Курс {course} обновлён.', EMAIL_HOST_USER, [email])
+    send_mail("Обновление курса!", f"Курс {course} обновлён.", EMAIL_HOST_USER, [email])
 
 
 @shared_task
@@ -21,4 +21,3 @@ def check_last_login_and_block_inactive_users():
         else:
             user.is_active = True
             user.save()
-
