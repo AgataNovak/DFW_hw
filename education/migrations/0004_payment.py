@@ -8,23 +8,65 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('education', '0003_subscription'),
+        ("education", "0003_subscription"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Payment',
+            name="Payment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.PositiveIntegerField(help_text='Введите сумму к оплате', verbose_name='Cумма к оплате')),
-                ('session_id', models.CharField(blank=True, help_text='Введите id сессии', max_length=300, null=True, verbose_name='id сессии')),
-                ('link', models.URLField(blank=True, help_text='Введите ссылку на страницу оплаты', max_length=500, null=True, verbose_name='Ссылка на страницу оплаты')),
-                ('user', models.ForeignKey(blank=True, help_text='Введите пользователя', null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "amount",
+                    models.PositiveIntegerField(
+                        help_text="Введите сумму к оплате",
+                        verbose_name="Cумма к оплате",
+                    ),
+                ),
+                (
+                    "session_id",
+                    models.CharField(
+                        blank=True,
+                        help_text="Введите id сессии",
+                        max_length=300,
+                        null=True,
+                        verbose_name="id сессии",
+                    ),
+                ),
+                (
+                    "link",
+                    models.URLField(
+                        blank=True,
+                        help_text="Введите ссылку на страницу оплаты",
+                        max_length=500,
+                        null=True,
+                        verbose_name="Ссылка на страницу оплаты",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="Введите пользователя",
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Пользователь",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Оплата',
-                'verbose_name_plural': 'Оплаты',
+                "verbose_name": "Оплата",
+                "verbose_name_plural": "Оплаты",
             },
         ),
     ]

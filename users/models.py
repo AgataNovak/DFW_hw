@@ -5,16 +5,38 @@ from education.models import Course
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=50, verbose_name="username", blank=True, null=True)
-    email = models.EmailField(unique=True, verbose_name="Email", help_text="Введите Ваш e-mail")
-    avatar = models.ImageField(upload_to="media/users/avatars/", verbose_name='Аватар', blank=True, null=True, help_text="Загрузите Ваше фото")
-    phone_number = models.CharField(max_length=35, verbose_name="Телефон", blank=True, null=True,
-                                    help_text="Введите номер телефона")
-    country = models.CharField(max_length=100, verbose_name="Страна", blank=True, null=True,
-                               help_text="Введите Вашу страну")
+    username = models.CharField(
+        max_length=50, verbose_name="username", blank=True, null=True
+    )
+    email = models.EmailField(
+        unique=True, verbose_name="Email", help_text="Введите Ваш e-mail"
+    )
+    avatar = models.ImageField(
+        upload_to="media/users/avatars/",
+        verbose_name="Аватар",
+        blank=True,
+        null=True,
+        help_text="Загрузите Ваше фото",
+    )
+    phone_number = models.CharField(
+        max_length=35,
+        verbose_name="Телефон",
+        blank=True,
+        null=True,
+        help_text="Введите номер телефона",
+    )
+    country = models.CharField(
+        max_length=100,
+        verbose_name="Страна",
+        blank=True,
+        null=True,
+        help_text="Введите Вашу страну",
+    )
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username",]
+    REQUIRED_FIELDS = [
+        "username",
+    ]
 
     class Meta:
         verbose_name = "Пользователь"
@@ -28,7 +50,7 @@ class Payment(models.Model):
     PAYMENT_CHOICES = [
         ("наличные", "Наличные"),
         ("перевод на счет", "Перевод на счет"),
-        ("онлайн оплата", "Онлайн оплата")
+        ("онлайн оплата", "Онлайн оплата"),
     ]
 
     user = models.ForeignKey(
@@ -39,9 +61,7 @@ class Payment(models.Model):
         verbose_name="Пользователь",
     )
     payment_date = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Дата оплаты",
-        help_text="Введите дату оплаты"
+        auto_now_add=True, verbose_name="Дата оплаты", help_text="Введите дату оплаты"
     )
     course_paid = models.ForeignKey(
         Course,
@@ -49,7 +69,7 @@ class Payment(models.Model):
         null=True,
         blank=True,
         verbose_name="Курс оплачен",
-        help_text="Введите статус оплаты"
+        help_text="Введите статус оплаты",
     )
     payment_amount = models.PositiveIntegerField(
         verbose_name="Cумма к оплате",
@@ -59,7 +79,7 @@ class Payment(models.Model):
         max_length=50,
         choices=PAYMENT_CHOICES,
         verbose_name="Способ оплаты",
-        help_text="Введите способ оплаты"
+        help_text="Введите способ оплаты",
     )
     session_id = models.CharField(
         max_length=250,

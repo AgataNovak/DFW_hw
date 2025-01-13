@@ -1,6 +1,12 @@
 from rest_framework.permissions import AllowAny
 from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.generics import (
+    CreateAPIView,
+    ListAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+)
 from users.models import User, Payment
 from users.serializers import UserSerializer, PaymentSerializer, UserDetailSerializer
 from users.services import create_stripe_price, create_stripe_session
