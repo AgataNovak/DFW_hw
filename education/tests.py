@@ -59,7 +59,7 @@ class LessonTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         data = response.json()
-        self.assertEqual(data.get("title"), "test title lesson 1")
+        self.assertEqual(data.get("title"), "Lessons 1")
 
 
 class SubscriptionTestCase(APITestCase):
