@@ -16,3 +16,12 @@ Make Get, Post, Put and Delete commands with JSON info as:
 }
 
 You can find whole list of parameters for Post command in models fields in module with path '/education/models.py'
+
+ELSE:
+
+To quickstart with Docker:
+Create docker containers with command 
+docker-compose build
+
+Start docker containers with command 
+docker-compose up
