@@ -99,13 +99,19 @@ jobs:
             python manage.py collectstatic --noinput
           EOF
 
-      - name: Deploy to server
+      - name: Restart application
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
-          docker stop myapp || true
-          docker rm myapp || true
-          docker run -d myapp -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+            sudo systemctl restart myapp.service
           EOF
-        env:
-          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+
+#      - name: Deploy to server
+#        run: |
+#          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+#          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+#          docker stop myapp || true
+#          docker rm myapp || true
+#          docker run -d myapp -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+#          EOF
+#        env:
+#          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
