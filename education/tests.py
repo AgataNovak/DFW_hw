@@ -48,10 +48,11 @@ class LessonTestCase(APITestCase):
         self.assertEqual(Lesson.objects.all().count(), 0)
 
     def test_lesson_create(self):
+        course_id = self.course.pk
         data = {
-            "title": "test title lesson 1",
-            "description": "test description lesson 1",
-            "course": self.course,
+            "title": "Lessons 1",
+            "description": "Lesson created",
+            "course": course_id
         }
         url = reverse("education:lessons_create")
         response = self.client.post(url, data=data)
